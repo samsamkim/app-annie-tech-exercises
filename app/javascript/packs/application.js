@@ -8,9 +8,10 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("./connections.js")
 
-require('bootstrap/dist/js/bootstrap')
-require('datatables.net-bs4')
+require("bootstrap/dist/js/bootstrap")
+require("datatables.net-bs4")
 require("jquery-ui")
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -21,36 +22,3 @@ require("jquery-ui")
 // const imagePath = (name) => images(name, true)
 import $ from 'jquery';
 global.$ = jQuery;
-
-
-$(document).on("turbolinks:load", function() {
-
-  $('#connections-table').DataTable({
-    paging: true
-  });
-
-  $(".datepicker").datepicker();
-
-
-  $('.checkboxes').change(function() {
-    var checked_attributes = []
-    $('.checkboxes:checked').each(function(){
-      checked_attributes.push($(this).attr('id'));
-    })
-
-    $.ajax({
-      type: 'POST',
-      url: 'connections_filter.js',
-      data: {checked_attributes: checked_attributes},
-      success(data) {
-        console.log('success')
-        return false
-      },
-      error(data) {
-        console.log('failed')
-        return false
-      }
-    })
-  })
-
-})
