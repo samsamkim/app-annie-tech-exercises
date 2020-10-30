@@ -19,15 +19,7 @@ class ConnectionsController < ApplicationController
     end
   end
 
-  # def set_start_date
-  #   return Date.yesterday if params[:start_date].blank?
-  #   params[:start_date]
-  # end
-
-  # def set_end_date
-  #   return Date.today if params[:end_date].blank?
-  #   params[:end_date]
-  # end
+  private
 
   def set_date(date, params_date)
     return date if params_date.blank?

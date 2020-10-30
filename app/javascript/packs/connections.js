@@ -23,12 +23,20 @@ $(document).on('turbolinks:load', function() {
   // Function for ajax
   function postToConnectionFilter() {
     var checked_attributes = [];
+    var attributes_score = {
+      country: 5, app: 10, platform: 15, connection: 20
+    };
     $('.checkboxes:checked').each(function(){
       checked_attributes.push($(this).attr('id'));
     });
+    checked_attributes.sort(function(attr1, attr2) {
+      return attributes_score[attr1] - attributes_score[attr2];
+    });
+
     var start_date = $('#start_date').val();
     var end_date = $('#end_date').val();
 
+    console.log(checked_attributes)
     $.ajax({
       type: 'POST',
       url: 'connections_filter.js',
@@ -46,4 +54,5 @@ $(document).on('turbolinks:load', function() {
       }
     });
   };
+
 });

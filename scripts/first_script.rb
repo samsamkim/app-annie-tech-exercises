@@ -28,7 +28,7 @@ rescue StandardError => error
   puts error.inspect
 end
 
-# Combining the connection data of all pages into one array
+# Combining the connection data of all pages
 def combine_data(response)
   return response['connections'] if response['next_page_url'].empty?
 
@@ -48,4 +48,10 @@ ActiveRecord::Base.establish_connection(
 class Connection < ActiveRecord::Base; end
 
 # Insert total_connections to database
-Connection.insert_all(total_connections)
+if $0 == __FILE__
+  if Connection.insert_all(total_connections)
+    puts 'completed'
+  else
+    puts 'error'
+  end
+end
