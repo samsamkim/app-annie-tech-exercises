@@ -13,26 +13,29 @@ return puts 'Start date cannot be later than End date!' if start_date > end_date
 
 puts "Please input the dimensions in comma separated format"
 dimensions = gets.chomp
+qry_dimensions = dimensions.present? ? ',' + dimensions : ''
 
-dimensions += ',' if dimensions != ''
 # Connect to postgres db through AciveRecord
 ActiveRecord::Base.establish_connection(
   adapter: 'postgresql',
   database: 'tech_exercises_development'
 )
-
 class Connection < ActiveRecord::Base; end
+
+grouping_qry = "date" + qry_dimensions
+selecting_qry = "date, sum(impressions) as impressions, sum(ad_revenue) as ad_revenue" + qry_dimensions
 
 connections = Connection
   .where(date: start_date..end_date)
-  .group("#{dimensions}date")
-  .select("#{dimensions}date, sum(impressions) as impressions, sum(ad_revenue) as ad_revenue")
+  .group(grouping_qry)
+  .select(selecting_qry)
   .map { |x| x.attributes.values.compact }
 
 file = "scripts/#{Time.now().to_i}.csv"
 
 CSV.open( file, 'w' ) do |writer|
-  headers = [dimensions.split(',').join(', '), 'impressions', 'ad_revenue', 'date']
+  dimension_array = dimensions.present? ? dimensions.split(',') : []
+  headers = dimension_array + ['impressions', 'ad_revenue', 'date']
   writer << headers
   connections.each do |s|
     writer << s
