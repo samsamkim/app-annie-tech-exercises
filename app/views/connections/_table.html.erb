@@ -1,0 +1,21 @@
+<table id="connections-table" class="display">
+  <thead>
+    <tr>
+      <% @headers.each do |header| %>
+        <th> <%= header %> </th>
+      <% end %>
+      <th> Calculated CPM </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @connections.each do |connection| %>
+      <tr>
+        <% connection.values.each do |val| %>
+          <td> <%= val %> </td>
+        <% end%>
+        <td> <%= calculate_cpm(connection) %> </td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>

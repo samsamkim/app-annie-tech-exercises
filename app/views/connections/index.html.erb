@@ -1,0 +1,28 @@
+
+
+<div class="container-fluid p-4">
+
+  <div class="p-4 my-4 row rounded border">
+    <div class="col"> Start Date: <input class="datepicker" type="text" id="start_date" /> </div>
+    <div class="col"> End Date: <input class="datepicker" type="text" id="end_date" /></div>
+    <div class="col">
+      <div class="row">
+        App: <input class="ml-2 my-auto checkboxes" type="checkbox" checked="checked" id="app"/>
+      </div>
+      <div class="row">
+        Country: <input class="ml-2 my-auto checkboxes" type="checkbox" checked="checked" id="country"/>
+      </div>
+      <div class="row">
+        Platform: <input class="ml-2 my-auto checkboxes" type="checkbox" checked="checked" id="platform"/>
+      </div>
+      <div class="row">
+        Connection: <input class="ml-2 my-auto checkboxes" type="checkbox" checked="checked" id="connection"/>
+      </div>
+    </div>
+  </div>
+
+  <div id='table-container' class='row'>
+    <%= render partial: 'table' %>
+  </div>
+
+</div>

@@ -1,0 +1,2 @@
+class AscendDatum < ApplicationRecord
+end
