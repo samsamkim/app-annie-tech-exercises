@@ -11,27 +11,22 @@ end_date = Date.parse(gets.chomp).strftime("%Y-%m-%d")
 
 return puts 'Start date cannot be later than End date!' if start_date > end_date
 
-puts "Please input the dimensions"
+puts "Please input the dimensions in comma separated format"
 dimensions = gets.chomp
 
+dimensions += ',' if dimensions != ''
 # Connect to postgres db through AciveRecord
 ActiveRecord::Base.establish_connection(
   adapter: 'postgresql',
   database: 'tech_exercises_development'
 )
 
-class Connection < ActiveRecord::Base
-
-  # def grouped_by_dimensions(start_date, end_date, dimensions)
-  #   self.where(date: start_date..end_date).group("date, #{dimensions}").select("date, sum(impressions) as impressions, sum(ad_revenue) as ad_revenue, #{dimensions}").map { |x| x.attributes.values.compact }
-  # end
-
-end
+class Connection < ActiveRecord::Base; end
 
 connections = Connection
   .where(date: start_date..end_date)
-  .group("date, #{dimensions}")
-  .select("date, sum(impressions) as impressions, sum(ad_revenue) as ad_revenue, #{dimensions}")
+  .group("#{dimensions}date")
+  .select("#{dimensions}date, sum(impressions) as impressions, sum(ad_revenue) as ad_revenue")
   .map { |x| x.attributes.values.compact }
 
 file = "scripts/#{Time.now().to_i}.csv"

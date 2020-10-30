@@ -16,8 +16,7 @@ query = {
   period: 'custom_date',
   start_date: start_date,
   end_date: end_date,
-  # group_by: 'connection,app,platform,country',
-  group_by: 'connection,country',
+  group_by: 'connection,app,platform,country',
   data_type: 'adnetwork',
   allow_mock: 'true'
 }
@@ -49,7 +48,4 @@ ActiveRecord::Base.establish_connection(
 class Connection < ActiveRecord::Base; end
 
 # Insert total_connections to database
-# Connection.insert_all(total_connections)
-
-puts total_connections
-puts total_connections.count
+Connection.insert_all(total_connections)

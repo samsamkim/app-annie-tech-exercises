@@ -1,36 +1,42 @@
-$(document).on("turbolinks:load", function() {
-  // Initializing datatables and datepicker
+$(document).on('turbolinks:load', function() {
+
+  // Initializing datatables and datepicker and set default date
   $('#connections-table').DataTable({
     paging: true
   });
-  $(".datepicker").datepicker({
-    dateFormat: 'dd/mm/yy'
+  $('.datepicker').datepicker({
+    dateFormat: 'dd/mm/yy',
   });
+  $('#start_date').datepicker('setDate', new Date(Date.now() - 86400000));
+  $('#end_date').datepicker('setDate', new Date());
 
   // Checkbox change sends ajax call
   $('.checkboxes').change(function() {
-    var checked_attributes = [];
-    $('.checkboxes:checked').each(function(){
-      checked_attributes.push($(this).attr('id'));
-    });
-
-    postToConnectionFilter({checked_attributes: checked_attributes.toString()})
+    postToConnectionFilter();
   });
 
   // Datepicker change sends ajax call
   $('.datepicker').change(function(){
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-
-    postToConnectionFilter({start_date: start_date, end_date: end_date})
+    postToConnectionFilter();
   });
 
   // Function for ajax
-  function postToConnectionFilter(data) {
+  function postToConnectionFilter() {
+    var checked_attributes = [];
+    $('.checkboxes:checked').each(function(){
+      checked_attributes.push($(this).attr('id'));
+    });
+    var start_date = $('#start_date').val();
+    var end_date = $('#end_date').val();
+
     $.ajax({
       type: 'POST',
       url: 'connections_filter.js',
-      data: data,
+      data: {
+        checked_attributes: checked_attributes.toString(), 
+        start_date: start_date, 
+        end_date: end_date
+      },
       success(data) {
         return false;
       },

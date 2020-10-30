@@ -1,8 +1,8 @@
 class ConnectionsController < ApplicationController
 
   def index
-    start_date = params[:start_date]
-    end_date = params[:end_date]
+    start_date = set_date(Date.yesterday, params[:start_date])
+    end_date = set_date(Date.today, params[:end_date])
 
     checked_attributes =
       params[:checked_attributes].nil? ?
@@ -17,6 +17,21 @@ class ConnectionsController < ApplicationController
       format.html
       format.js
     end
+  end
+
+  # def set_start_date
+  #   return Date.yesterday if params[:start_date].blank?
+  #   params[:start_date]
+  # end
+
+  # def set_end_date
+  #   return Date.today if params[:end_date].blank?
+  #   params[:end_date]
+  # end
+
+  def set_date(date, params_date)
+    return date if params_date.blank?
+    params_date
   end
 
 end
